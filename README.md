@@ -7,5 +7,5 @@ Technologies I used to build this app
 - Java
 
 I am newbie programmer. First project using java. I created a simple task management with the pomodoro feature to support your productivity. 
-You can freely use this app if you can find this app is useful for you. Do not hesitate to contact if you have some feedback.
+You can freely use this app if you find this app is useful for you. Do not hesitate to contact if you have some feedback.
 Thank you~
