@@ -5,7 +5,18 @@
  */
 package TaskManagementSystem;
 
+import Credential.LoginForm;
+import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import DatabaseConnection.DatabaseConnection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.TimerTask;
+import javax.swing.Timer;
+import static Credential.LoginForm.userIdField;
+import DatabaseConnection.registerUserCon;
+import java.sql.ResultSet;
 
 /**
  *
@@ -16,11 +27,76 @@ public class Pomodoro extends javax.swing.JFrame {
     /**
      * Creates new form ToDoTask
      */
-//    ImageIcon ii; 
+    
+   
+    ImageIcon icon; 
+    int userId = Integer.parseInt(userIdField.getText());
+    boolean studySession = true;
+    int initialRestMin = 0; 
+    int initialStudyMin = 0;
+    
+    int second = 0; 
+    int minute = initialStudyMin;
+    
+    Timer timer;
+    
+    
+    public void displayTime(){
+        timeLabel.setText( minute +" : "+ second);
+    }
+    
+    private void getTaskDoneTodo(){
+        String taskDoneQuery = "SELECT COUNT(`status`) FROM `task_list` WHERE `status`= \"Done\";";
+        String taskTodoQuery = "SELECT COUNT(`status`) FROM `task_list` WHERE `status`= \"To Do Task\";";
+        
+        try{
+            ResultSet rs = registerUserCon.getConnection().createStatement().executeQuery(taskTodoQuery);
+            ResultSet rset = registerUserCon.getConnection().createStatement().executeQuery(taskDoneQuery);
+            if(rs.next()){
+                todoCount.setText(rs.getString(1));
+            }
+            if (rset.next()){
+                doneCount.setText(rset.getString(1));
+            }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+        
+        
+    }
+    
+    
+    public void getSidebarProfileData(){
+        
+        String sql = "SELECT `full_name`, `career` FROM `register_user` WHERE `user_id` = '"+userId+"'";    
+        try{
+           ResultSet rs = registerUserCon.getConnection().createStatement().executeQuery(sql);
+           // store the data in public variable in dashobard
+           if(rs.next()){
+               String fullname = rs.getString(1);
+               String career = rs.getString(2);
+               
+               // set text
+               fullnameSidebar.setText(fullname);
+               careerSidebar.setText(career);
+           }
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    
+    
+    
+    
+    
+    
     public Pomodoro() {
         initComponents();
         setTitle("To-Do Task");
         this.setLocationRelativeTo(null);
+        displayTime();
+        getSidebarProfileData();
+        getTaskDoneTodo();
     }
 
     /**
@@ -35,48 +111,62 @@ public class Pomodoro extends javax.swing.JFrame {
         bg = new javax.swing.JPanel();
         sidebar = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        todo_menu = new javax.swing.JPanel();
+        todo_menu_text = new javax.swing.JLabel();
+        todo_menu_icon = new javax.swing.JLabel();
+        profile_menu = new javax.swing.JPanel();
+        profile_menu_text = new javax.swing.JLabel();
+        profile_menu_icon = new javax.swing.JLabel();
+        logout_menu = new javax.swing.JPanel();
+        logout_menu_text = new javax.swing.JLabel();
+        logout_menu_icon = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        dashboard_menu = new javax.swing.JPanel();
+        dashboard_menu_text = new javax.swing.JLabel();
+        dashboard_menu_icon = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
+        fullnameSidebar = new javax.swing.JLabel();
+        careerSidebar = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jPanel10 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
+        todoCount = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jLabel61 = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel62 = new javax.swing.JLabel();
-        jProgressBar1 = new javax.swing.JProgressBar();
-        jLabel64 = new javax.swing.JLabel();
+        doneCount = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
+        sessionType = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
+        pauseBtn = new javax.swing.JLabel();
+        restartBtn = new javax.swing.JLabel();
+        playBtn = new javax.swing.JLabel();
+        jLabel65 = new javax.swing.JLabel();
+        jLabel66 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        studyMin = new javax.swing.JTextField();
+        jLabel68 = new javax.swing.JLabel();
+        restMin = new javax.swing.JTextField();
+        jLabel70 = new javax.swing.JLabel();
+        setTimeBtn = new javax.swing.JPanel();
+        setTimeBtnLabel = new javax.swing.JLabel();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jLabel20 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(1330, 700));
 
         bg.setBackground(new java.awt.Color(250, 252, 254));
+        bg.setMinimumSize(new java.awt.Dimension(1250, 730));
+        bg.setPreferredSize(new java.awt.Dimension(1250, 730));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         sidebar.setBackground(new java.awt.Color(241, 242, 247));
@@ -84,118 +174,157 @@ public class Pomodoro extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(241, 242, 247));
 
-        jPanel9.setBackground(new java.awt.Color(241, 242, 247));
+        todo_menu.setBackground(new java.awt.Color(241, 242, 247));
+        todo_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        todo_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                todo_menuMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                todo_menuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                todo_menuMouseExited(evt);
+            }
+        });
 
-        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel17.setText("To-Do Task");
+        todo_menu_text.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        todo_menu_text.setForeground(new java.awt.Color(153, 153, 153));
+        todo_menu_text.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        todo_menu_text.setText("To-Do Task");
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/todo.png"))); // NOI18N
+        todo_menu_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/todo.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
+        javax.swing.GroupLayout todo_menuLayout = new javax.swing.GroupLayout(todo_menu);
+        todo_menu.setLayout(todo_menuLayout);
+        todo_menuLayout.setHorizontalGroup(
+            todo_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(todo_menuLayout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
-                .addComponent(jLabel18)
-                .addGap(32, 32, 32)
-                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31))
+                .addComponent(todo_menu_icon)
+                .addGap(31, 31, 31)
+                .addComponent(todo_menu_text, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
         );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE))
-                .addContainerGap())
+        todo_menuLayout.setVerticalGroup(
+            todo_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(todo_menuLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(todo_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(todo_menu_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(todo_menu_text))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(todo_menu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(todo_menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         sidebar.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 260, 60));
 
-        jPanel6.setBackground(new java.awt.Color(241, 242, 247));
+        profile_menu.setBackground(new java.awt.Color(241, 242, 247));
+        profile_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        profile_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                profile_menuMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                profile_menuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                profile_menuMouseExited(evt);
+            }
+        });
 
-        jLabel6.setBackground(new java.awt.Color(113, 97, 207));
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel6.setText("Profile");
+        profile_menu_text.setBackground(new java.awt.Color(113, 97, 207));
+        profile_menu_text.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        profile_menu_text.setForeground(new java.awt.Color(153, 153, 153));
+        profile_menu_text.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        profile_menu_text.setText("Profile");
 
-        jLabel3.setBackground(new java.awt.Color(113, 97, 207));
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/profile.png"))); // NOI18N
+        profile_menu_icon.setBackground(new java.awt.Color(113, 97, 207));
+        profile_menu_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/profile.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+        javax.swing.GroupLayout profile_menuLayout = new javax.swing.GroupLayout(profile_menu);
+        profile_menu.setLayout(profile_menuLayout);
+        profile_menuLayout.setHorizontalGroup(
+            profile_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, profile_menuLayout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
-                .addComponent(jLabel3)
+                .addComponent(profile_menu_icon)
                 .addGap(33, 33, 33)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(profile_menu_text, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        profile_menuLayout.setVerticalGroup(
+            profile_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, profile_menuLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(profile_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(profile_menu_icon, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profile_menu_text, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        sidebar.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 60));
+        sidebar.add(profile_menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 260, 60));
 
-        jPanel7.setBackground(new java.awt.Color(241, 242, 247));
+        logout_menu.setBackground(new java.awt.Color(241, 242, 247));
+        logout_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logout_menu.setPreferredSize(new java.awt.Dimension(260, 60));
+        logout_menu.setVerifyInputWhenFocusTarget(false);
+        logout_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logout_menuMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                logout_menuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                logout_menuMouseExited(evt);
+            }
+        });
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel8.setText("Log Out");
+        logout_menu_text.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        logout_menu_text.setForeground(new java.awt.Color(153, 153, 153));
+        logout_menu_text.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        logout_menu_text.setText("Log Out");
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/log.png"))); // NOI18N
+        logout_menu_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/log.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout logout_menuLayout = new javax.swing.GroupLayout(logout_menu);
+        logout_menu.setLayout(logout_menuLayout);
+        logout_menuLayout.setHorizontalGroup(
+            logout_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, logout_menuLayout.createSequentialGroup()
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addComponent(logout_menu_icon)
+                .addGap(47, 47, 47)
+                .addComponent(logout_menu_text, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(47, 47, 47))
         );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9))
-                .addContainerGap())
+        logout_menuLayout.setVerticalGroup(
+            logout_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logout_menuLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(logout_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(logout_menu_text)
+                    .addComponent(logout_menu_icon))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        sidebar.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 590, 250, 40));
+        sidebar.add(logout_menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, 590, 260, 60));
 
         jPanel8.setBackground(new java.awt.Color(232, 232, 246));
+        jPanel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(113, 97, 207));
@@ -225,42 +354,54 @@ public class Pomodoro extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        sidebar.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 260, 60));
+        sidebar.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 260, 60));
 
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/TM.png"))); // NOI18N
         sidebar.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
-        jPanel4.setBackground(new java.awt.Color(241, 242, 247));
+        dashboard_menu.setBackground(new java.awt.Color(241, 242, 247));
+        dashboard_menu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        dashboard_menu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                dashboard_menuMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                dashboard_menuMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                dashboard_menuMouseExited(evt);
+            }
+        });
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel1.setText("Dashboard");
+        dashboard_menu_text.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        dashboard_menu_text.setForeground(new java.awt.Color(153, 153, 153));
+        dashboard_menu_text.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        dashboard_menu_text.setText("Dashboard");
 
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/dashboard inactive.png"))); // NOI18N
+        dashboard_menu_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/dashboard inactive.png"))); // NOI18N
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout dashboard_menuLayout = new javax.swing.GroupLayout(dashboard_menu);
+        dashboard_menu.setLayout(dashboard_menuLayout);
+        dashboard_menuLayout.setHorizontalGroup(
+            dashboard_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboard_menuLayout.createSequentialGroup()
                 .addContainerGap(41, Short.MAX_VALUE)
-                .addComponent(jLabel12)
+                .addComponent(dashboard_menu_icon)
                 .addGap(32, 32, 32)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dashboard_menu_text, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        dashboard_menuLayout.setVerticalGroup(
+            dashboard_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboard_menuLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(dashboard_menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dashboard_menu_text, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dashboard_menu_icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        sidebar.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 60));
+        sidebar.add(dashboard_menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 200, 260, 60));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel7.setText("Task Manager");
@@ -268,12 +409,12 @@ public class Pomodoro extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(251, 251, 251));
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel13.setText("Babayaga Harosh");
+        fullnameSidebar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        fullnameSidebar.setText("Babayaga Harosh");
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel14.setText("Project Manager");
+        careerSidebar.setFont(new java.awt.Font("Tahoma", 0, 9)); // NOI18N
+        careerSidebar.setForeground(new java.awt.Color(51, 51, 51));
+        careerSidebar.setText("Project Manager");
 
         jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/ProfileArrow.png"))); // NOI18N
 
@@ -282,11 +423,11 @@ public class Pomodoro extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(fullnameSidebar, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                    .addComponent(careerSidebar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -298,16 +439,16 @@ public class Pomodoro extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jLabel13)
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel14)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                        .addGap(23, 23, 23)
+                        .addComponent(fullnameSidebar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(careerSidebar)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         sidebar.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 240, 80));
 
-        bg.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 700));
+        bg.add(sidebar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 260, 730));
 
         jPanel2.setBackground(new java.awt.Color(232, 232, 246));
         jPanel2.setLayout(new java.awt.BorderLayout());
@@ -324,9 +465,9 @@ public class Pomodoro extends javax.swing.JFrame {
         jLabel22.setForeground(new java.awt.Color(248, 170, 75));
         jLabel22.setText("To-do");
 
-        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(248, 170, 75));
-        jLabel23.setText("20");
+        todoCount.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        todoCount.setForeground(new java.awt.Color(248, 170, 75));
+        todoCount.setText("20");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -336,13 +477,13 @@ public class Pomodoro extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel22)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addComponent(jLabel23)
+                .addComponent(todoCount)
                 .addGap(21, 21, 21))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(todoCount, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
         bg.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 30, 160, 50));
@@ -354,9 +495,9 @@ public class Pomodoro extends javax.swing.JFrame {
         jLabel24.setForeground(new java.awt.Color(91, 199, 79));
         jLabel24.setText("Task Done");
 
-        jLabel25.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel25.setForeground(new java.awt.Color(91, 199, 79));
-        jLabel25.setText("3");
+        doneCount.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        doneCount.setForeground(new java.awt.Color(91, 199, 79));
+        doneCount.setText("3");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -366,73 +507,182 @@ public class Pomodoro extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel24)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(jLabel25)
+                .addComponent(doneCount)
                 .addGap(21, 21, 21))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+            .addComponent(doneCount, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
         bg.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 30, -1, -1));
 
-        jLabel61.setFont(new java.awt.Font("Segoe UI", 0, 180)); // NOI18N
-        jLabel61.setText("50 : 00");
-        bg.add(jLabel61, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 190, 530, -1));
+        timeLabel.setFont(new java.awt.Font("Segoe UI", 0, 100)); // NOI18N
+        timeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timeLabel.setText("00 : 00");
+        bg.add(timeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 250, 500, -1));
 
-        jPanel13.setBackground(new java.awt.Color(236, 235, 252));
+        sessionType.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        sessionType.setText("Session");
+        bg.add(sessionType, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 220, 160, -1));
 
-        jLabel62.setBackground(new java.awt.Color(113, 97, 207));
-        jLabel62.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel62.setForeground(new java.awt.Color(113, 97, 207));
-        jLabel62.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel62.setText("Set Timer");
-
-        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
-        jPanel13.setLayout(jPanel13Layout);
-        jPanel13Layout.setHorizontalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
-        );
-        jPanel13Layout.setVerticalGroup(
-            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        bg.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 170, 120, 30));
-        bg.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 460, 870, -1));
-
-        jLabel64.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel64.setText("Set your time, and learn.");
-        bg.add(jLabel64, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 420, -1));
-
-        jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel21.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel21.setText("Be productive and work smarter.");
-        bg.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 300, -1));
+        jLabel21.setText("3. You can skip the session by clicking the set time button.");
+        jLabel21.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        bg.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 680, 360, 20));
 
-        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pauseBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        pauseBtn.setForeground(new java.awt.Color(102, 102, 102));
+        pauseBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        pauseBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/pause.png"))); // NOI18N
+        pauseBtn.setMaximumSize(new java.awt.Dimension(72, 72));
+        pauseBtn.setMinimumSize(new java.awt.Dimension(72, 72));
+        pauseBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pauseBtnMouseClicked(evt);
+            }
+        });
+        bg.add(pauseBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 420, 80, -1));
+
+        restartBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        restartBtn.setForeground(new java.awt.Color(102, 102, 102));
+        restartBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        restartBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/reset.png"))); // NOI18N
+        restartBtn.setMaximumSize(new java.awt.Dimension(72, 72));
+        restartBtn.setMinimumSize(new java.awt.Dimension(72, 72));
+        restartBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                restartBtnMouseClicked(evt);
+            }
+        });
+        bg.add(restartBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 420, 80, 70));
+
+        playBtn.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        playBtn.setForeground(new java.awt.Color(102, 102, 102));
+        playBtn.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        playBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/play.png"))); // NOI18N
+        playBtn.setMaximumSize(new java.awt.Dimension(72, 72));
+        playBtn.setMinimumSize(new java.awt.Dimension(72, 72));
+        playBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                playBtnMouseClicked(evt);
+            }
+        });
+        bg.add(playBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 420, 80, -1));
+
+        jLabel65.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel65.setText("Set your time, and learn.");
+        bg.add(jLabel65, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 420, -1));
+
+        jLabel66.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel66.setText("Study Session");
+        bg.add(jLabel66, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 280, 110, 30));
+
+        jLabel67.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel67.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel67.setText("min");
+        bg.add(jLabel67, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 350, 40, 30));
+
+        studyMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studyMinActionPerformed(evt);
+            }
+        });
+        studyMin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                studyMinKeyTyped(evt);
+            }
+        });
+        bg.add(studyMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 280, 40, 30));
+
+        jLabel68.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel68.setText("Rest Session");
+        bg.add(jLabel68, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, 120, 30));
+
+        restMin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                restMinActionPerformed(evt);
+            }
+        });
+        restMin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                restMinKeyTyped(evt);
+            }
+        });
+        bg.add(restMin, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 350, 40, 30));
+
+        jLabel70.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel70.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel70.setText("min");
+        bg.add(jLabel70, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, 40, 30));
+
+        setTimeBtn.setBackground(new java.awt.Color(236, 235, 252));
+        setTimeBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        setTimeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                setTimeBtnMouseClicked(evt);
+            }
+        });
+
+        setTimeBtnLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        setTimeBtnLabel.setForeground(new java.awt.Color(113, 97, 207));
+        setTimeBtnLabel.setText("Set Time");
+        setTimeBtnLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                setTimeBtnLabelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout setTimeBtnLayout = new javax.swing.GroupLayout(setTimeBtn);
+        setTimeBtn.setLayout(setTimeBtnLayout);
+        setTimeBtnLayout.setHorizontalGroup(
+            setTimeBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setTimeBtnLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(setTimeBtnLabel)
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+        setTimeBtnLayout.setVerticalGroup(
+            setTimeBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(setTimeBtnLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        );
+
+        bg.add(setTimeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 430, 90, 40));
+
+        jLabel71.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel71.setText("Pomodoro Timer");
+        bg.add(jLabel71, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 220, 160, -1));
+
+        jLabel23.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel23.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel23.setText("Be productive and work smarter.");
+        bg.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 140, 300, -1));
+
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel25.setText("How to use : ");
+        bg.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 590, 100, -1));
+
+        jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/play.png"))); // NOI18N
-        jLabel26.setMaximumSize(new java.awt.Dimension(72, 72));
-        jLabel26.setMinimumSize(new java.awt.Dimension(72, 72));
-        bg.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 530, 80, -1));
+        jLabel26.setText("1. Set your timer for your own study session and rest session.");
+        jLabel26.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        bg.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 620, 320, 20));
 
-        jLabel20.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel20.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/reset.png"))); // NOI18N
-        jLabel20.setMaximumSize(new java.awt.Dimension(72, 72));
-        jLabel20.setMinimumSize(new java.awt.Dimension(72, 72));
-        bg.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 530, 80, 70));
+        jLabel27.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel27.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel27.setText("2. Start your time by clicking the start button in the middle.");
+        jLabel27.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        bg.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 650, 320, 20));
+        bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 390, 310, 10));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1293, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -442,6 +692,265 @@ public class Pomodoro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void dashboard_menuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboard_menuMouseEntered
+        // TODO add your handling code here
+        dashboard_menu.setBackground(new Color(236,235,252));
+        dashboard_menu_text.setForeground(new Color(113,97,207));
+        icon = new ImageIcon(getClass().getResource("../Icons/dashboard.png "));
+        dashboard_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_dashboard_menuMouseEntered
+
+    private void dashboard_menuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboard_menuMouseExited
+        // TODO add your handling code here:
+        dashboard_menu.setBackground(new Color(241,242,247));
+        dashboard_menu_text.setForeground(new Color(153,153,153)); 
+        icon = new ImageIcon(getClass().getResource("../Icons/dashboard inactive.png"));
+        dashboard_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_dashboard_menuMouseExited
+
+    private void todo_menuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_todo_menuMouseEntered
+        // TODO add your handling code here:
+        todo_menu.setBackground(new Color(236,235,252));
+        todo_menu_text.setForeground(new Color(113,97,207));
+        icon = new ImageIcon(getClass().getResource("../Icons/To-Do Active.png "));
+        todo_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_todo_menuMouseEntered
+
+    private void todo_menuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_todo_menuMouseExited
+        // TODO add your handling code here:
+        todo_menu.setBackground(new Color(241,242,247));
+        todo_menu_text.setForeground(new Color(153,153,153)); 
+        icon = new ImageIcon(getClass().getResource("../Icons/todo.png"));
+        todo_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_todo_menuMouseExited
+
+    private void profile_menuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profile_menuMouseEntered
+        // TODO add your handling code here:
+        profile_menu.setBackground(new Color(236,235,252));
+        profile_menu_text.setForeground(new Color(113,97,207));
+        icon = new ImageIcon(getClass().getResource("../Icons/profileActive.png "));
+        profile_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_profile_menuMouseEntered
+
+    private void profile_menuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profile_menuMouseExited
+        // TODO add your handling code here:
+        profile_menu.setBackground(new Color(241,242,247));
+        profile_menu_text.setForeground(new Color(153,153,153)); 
+        icon = new ImageIcon(getClass().getResource("../Icons/profile.png"));
+        profile_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_profile_menuMouseExited
+
+    private void logout_menuMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_menuMouseEntered
+        // TODO add your handling code here:
+        logout_menu.setBackground(new Color(236,235,252));
+        logout_menu_text.setForeground(new Color(113,97,207));
+        icon = new ImageIcon(getClass().getResource("../Icons/logoutActive.png"));
+        logout_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_logout_menuMouseEntered
+
+    private void logout_menuMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_menuMouseExited
+        // TODO add your handling code here:
+        logout_menu.setBackground(new Color(241,242,247));
+        logout_menu_text.setForeground(new Color(153,153,153));
+        icon = new ImageIcon(getClass().getResource("../Icons/log.png"));
+        logout_menu_icon.setIcon(icon);
+    }//GEN-LAST:event_logout_menuMouseExited
+
+    private void dashboard_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dashboard_menuMouseClicked
+        // Display the Dashboard page
+        DashboardMain dashboardPage = new DashboardMain(); 
+        dashboardPage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_dashboard_menuMouseClicked
+
+    private void todo_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_todo_menuMouseClicked
+        // Display the todo page
+        ToDoTask todoPage = new ToDoTask(); 
+        todoPage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_todo_menuMouseClicked
+
+    private void profile_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_profile_menuMouseClicked
+        // Display the profile page
+        Profile profilePage = new Profile(); 
+        profilePage.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_profile_menuMouseClicked
+
+    private void logout_menuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logout_menuMouseClicked
+        // Display the dialog
+        int userResponse = JOptionPane.showConfirmDialog(this, "Are you sure want to log out ?", "Log Out", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        
+        //if yes redirect into the login page
+        if (userResponse == JOptionPane.YES_OPTION){
+            System.out.println("Logged Out");
+            LoginForm loginPage = new LoginForm(); 
+            loginPage.setVisible(true);
+            dispose();
+        }
+        // if no don't logged out the user
+        else{
+            System.out.println("Logged In");
+        }
+    }//GEN-LAST:event_logout_menuMouseClicked
+
+    private void playBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_playBtnMouseClicked
+        // start timer 
+        timer.start();
+    }//GEN-LAST:event_playBtnMouseClicked
+
+    private void restartBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_restartBtnMouseClicked
+        // reset timer
+        minute = initialStudyMin;
+        second = 0;
+        timer.stop();
+        displayTime();
+    }//GEN-LAST:event_restartBtnMouseClicked
+
+    private void pauseBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pauseBtnMouseClicked
+        // stop timer
+        timer.stop();
+    }//GEN-LAST:event_pauseBtnMouseClicked
+
+    private void studyMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studyMinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_studyMinActionPerformed
+
+    private void restMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restMinActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_restMinActionPerformed
+
+    private void setTimeBtnLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setTimeBtnLabelMouseClicked
+        // check if the data is inputed
+        if ("".equals(studyMin.getText()) || "".equals(restMin.getText())){
+            JOptionPane.showMessageDialog(null, "Please input some number");
+        } else {
+            initialStudyMin = Integer.parseInt(studyMin.getText());
+            initialRestMin = Integer.parseInt(restMin.getText());
+            
+            if (second != 0 ){
+                second = 0 ;
+            }
+            
+            System.out.println(initialStudyMin);
+            System.out.println(initialRestMin);
+            setSession();
+            displayTime();
+            timer = new Timer(1000, new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            displayTime();
+            second--; 
+            if (second >= 0 ){
+                displayTime();
+                if (second <= 0 && minute > 0){
+                    second = 60;
+                    minute--;
+                } else if (second == 0 && minute == 0){
+                    JOptionPane.showMessageDialog(null, "You Completed this session");
+                    setSession();
+                    displayTime();
+                }
+            } else if(second <=0 && minute > 0){
+                second = 59;
+                minute--;
+                displayTime();
+                if (second == 0 && minute == 0){
+                    JOptionPane.showMessageDialog(null, "You Completed this session");
+                    setSession();
+                    displayTime();
+                }
+                
+            }
+            
+        }
+            
+    });
+        }
+    }//GEN-LAST:event_setTimeBtnLabelMouseClicked
+
+    private void setTimeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_setTimeBtnMouseClicked
+        // check if the data is inputed
+        if ("".equals(studyMin.getText()) && "".equals(restMin.getText())){
+            JOptionPane.showMessageDialog(null, "Please input some number");
+        } else {
+            initialStudyMin = Integer.parseInt(studyMin.getText());
+            initialRestMin = Integer.parseInt(restMin.getText());
+            if (second != 0 ){
+                second = 0 ;
+            }
+            
+            System.out.println(initialStudyMin);
+            System.out.println(initialRestMin);
+            setSession();
+            displayTime();
+            timer = new Timer(1000, new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            displayTime();
+            second--; 
+            if (second >= 0 ){
+                displayTime();
+                if (second <= 0 && minute > 0){
+                    second = 60;
+                    minute--;
+                } else if (second == 0 && minute == 0){
+                    JOptionPane.showMessageDialog(null, "You Completed this session");
+                    setSession();
+                    displayTime();
+                    
+                }
+            } else if(second <=0 && minute > 0){
+                second = 59;
+                minute--;
+                displayTime();
+                if (second == 0 && minute == 0){
+                    JOptionPane.showMessageDialog(null, "You Completed this session");
+                    setSession();
+                    displayTime();
+                   
+                }
+                
+            }
+            
+        }
+            
+    });
+        }
+        
+        
+    }//GEN-LAST:event_setTimeBtnMouseClicked
+
+    private void studyMinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studyMinKeyTyped
+        // don't allow unless number
+        if(!Character.isDigit(evt.getKeyChar())){
+            evt.consume();
+        }
+    }//GEN-LAST:event_studyMinKeyTyped
+
+    private void restMinKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_restMinKeyTyped
+        // don't allow unless number
+        if(!Character.isDigit(evt.getKeyChar())){
+            evt.consume();
+        }
+    }//GEN-LAST:event_restMinKeyTyped
+
+    public void setSession(){
+     // Check if study session is true so the min will be the study, if not then use the rest min
+        if (studySession == true ){
+            minute = initialStudyMin;
+            studySession = false;
+            sessionType.setText("Study Session");
+        } else{
+            minute = initialRestMin;
+            studySession = true;
+            sessionType.setText("Rest Session");
+        }
+    }
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -482,44 +991,59 @@ public class Pomodoro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel careerSidebar;
+    private javax.swing.JPanel dashboard_menu;
+    private javax.swing.JLabel dashboard_menu_icon;
+    private javax.swing.JLabel dashboard_menu_text;
+    private javax.swing.JLabel doneCount;
+    private javax.swing.JLabel fullnameSidebar;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel61;
-    private javax.swing.JLabel jLabel62;
-    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
-    private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel logout_menu;
+    private javax.swing.JLabel logout_menu_icon;
+    private javax.swing.JLabel logout_menu_text;
+    private javax.swing.JLabel pauseBtn;
+    private javax.swing.JLabel playBtn;
+    private javax.swing.JPanel profile_menu;
+    private javax.swing.JLabel profile_menu_icon;
+    private javax.swing.JLabel profile_menu_text;
+    private javax.swing.JTextField restMin;
+    private javax.swing.JLabel restartBtn;
+    private javax.swing.JLabel sessionType;
+    private javax.swing.JPanel setTimeBtn;
+    private javax.swing.JLabel setTimeBtnLabel;
     private javax.swing.JPanel sidebar;
+    private javax.swing.JTextField studyMin;
+    private javax.swing.JLabel timeLabel;
+    private javax.swing.JLabel todoCount;
+    private javax.swing.JPanel todo_menu;
+    private javax.swing.JLabel todo_menu_icon;
+    private javax.swing.JLabel todo_menu_text;
     // End of variables declaration//GEN-END:variables
+
+   
 }
