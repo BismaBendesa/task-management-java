@@ -6,14 +6,12 @@
 package TaskManagementSystem;
 
 import Credential.LoginForm;
-import DatabaseConnection.DatabaseConnection;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import DatabaseConnection.registerUserCon;
 import static Credential.LoginForm.userIdField;
 import java.sql.ResultSet;
-import TaskManagementSystem.EditProfile;
 
 /**
  *
@@ -135,7 +133,6 @@ public class Profile extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         doneCount = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jScrollBar2 = new javax.swing.JScrollBar();
         jLabel61 = new javax.swing.JLabel();
         userIdValue = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -480,7 +477,7 @@ public class Profile extends javax.swing.JFrame {
             .addComponent(todoCount, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
-        bg.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 30, 160, 50));
+        bg.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, 160, 50));
 
         jPanel11.setBackground(new java.awt.Color(225, 241, 224));
         jPanel11.setForeground(new java.awt.Color(225, 221, 244));
@@ -510,12 +507,11 @@ public class Profile extends javax.swing.JFrame {
             .addComponent(doneCount, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
         );
 
-        bg.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 30, -1, -1));
+        bg.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 20, -1, -1));
 
         jLabel26.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel26.setText("User ID");
         bg.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 390, 120, -1));
-        bg.add(jScrollBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 0, -1, 700));
 
         jLabel61.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel61.setText("Customize your profile ");
@@ -628,7 +624,7 @@ public class Profile extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 1326, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -838,7 +834,6 @@ public class Profile extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollBar jScrollBar2;
     private javax.swing.JPanel logout_menu;
     private javax.swing.JLabel logout_menu_icon;
     private javax.swing.JLabel logout_menu_text;

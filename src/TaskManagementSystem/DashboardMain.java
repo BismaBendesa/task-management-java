@@ -6,29 +6,17 @@
 package TaskManagementSystem;
 
 import Credential.LoginForm;
-import DatabaseConnection.DatabaseConnection;
 import DatabaseConnection.registerUserCon;
 import com.mysql.jdbc.Connection;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import java.awt.image.ImageObserver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static javax.swing.UIManager.getString;
 import javax.swing.table.DefaultTableModel;
-import TaskManagementSystem.EditTask;
-import java.sql.PreparedStatement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import javax.swing.JTextField;
-import TaskManagementSystem.Profile;
 import static Credential.LoginForm.userIdField;
 import static Credential.LoginForm.isLoggedIn;
+import java.util.Date;
 
 /**
  *
