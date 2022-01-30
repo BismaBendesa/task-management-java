@@ -6,14 +6,11 @@
 package TaskManagementSystem;
 
 import Credential.LoginForm;
-import DatabaseConnection.DatabaseConnection;
 import DatabaseConnection.registerUserCon;
 import java.awt.Color;
 import java.sql.ResultSet;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 import static Credential.LoginForm.userIdField;
 
@@ -152,7 +149,6 @@ public class ToDoTask extends javax.swing.JFrame {
         jLabel24 = new javax.swing.JLabel();
         doneCount = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
-        jScrollBar2 = new javax.swing.JScrollBar();
         jScrollPane1 = new javax.swing.JScrollPane();
         todoTable = new javax.swing.JTable();
         jLabel21 = new javax.swing.JLabel();
@@ -516,7 +512,6 @@ public class ToDoTask extends javax.swing.JFrame {
         jLabel26.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel26.setText("Here's what you need to do");
         bg.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 100, 420, -1));
-        bg.add(jScrollBar2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1310, 0, -1, 700));
 
         todoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -561,7 +556,7 @@ public class ToDoTask extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 1314, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -730,7 +725,6 @@ public class ToDoTask extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollBar jScrollBar2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel logout_menu;
     private javax.swing.JLabel logout_menu_icon;

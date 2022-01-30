@@ -9,17 +9,15 @@ import DatabaseConnection.registerUserCon;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import TaskManagementSystem.DashboardMain;
 import static TaskManagementSystem.DashboardMain.dashboardTable;
 import static TaskManagementSystem.DashboardMain.date1;
-import static TaskManagementSystem.DashboardMain.taskId;
 import static TaskManagementSystem.TaskInfo.setValue;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import TaskManagementSystem.EditTask;
 
 
 
@@ -229,7 +227,7 @@ public class TaskInfo extends javax.swing.JFrame {
         cancelBtnLabel.setBackground(new java.awt.Color(153, 233, 244));
         cancelBtnLabel.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
         cancelBtnLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cancelBtnLabel.setText("Cancel");
+        cancelBtnLabel.setText("Back");
         cancelBtnLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         cancelBtnLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

@@ -5,7 +5,7 @@
  */
 package TaskManagementSystem;
 
-import static Credential.LoginForm.userIdField;
+
 import DatabaseConnection.registerUserCon;
 import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;

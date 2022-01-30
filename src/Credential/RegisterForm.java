@@ -309,7 +309,7 @@ public class RegisterForm extends javax.swing.JFrame {
         if(!Character.isDigit(evt.getKeyChar())){
             evt.consume();
         }
-        if(phoneField.getText().length() > 13){
+        if(phoneField.getText().length() >= 13){
             JOptionPane.showMessageDialog(null, "Maximum Charachter limit is 13");
             evt.consume();
         }
