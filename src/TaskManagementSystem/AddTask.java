@@ -12,6 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import java.sql.PreparedStatement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 //import TaskManagementSystem.DashboardMain;
@@ -27,6 +30,7 @@ public class AddTask extends javax.swing.JFrame {
      */
     
     DefaultTableModel model;
+    private String dateFormat;
     public AddTask() {
         initComponents();
         setTitle("Add Task");
@@ -48,6 +52,25 @@ public class AddTask extends javax.swing.JFrame {
         taskNameField.setText("");
         deadlineDateField.setCalendar(null);
         descriptionTextArea.setText("");
+    }
+    
+    // interface for date validation
+    public interface DateValidator {
+        boolean isValid(String dateStr);
+    }
+    public AddTask(String dateFormat){
+        this.dateFormat = dateFormat;
+    }
+    
+    public boolean isValid(String dateStr){
+        DateFormat sdf = new SimpleDateFormat(this.dateFormat);
+        sdf.setLenient(true);
+        try{
+            sdf.parse(dateStr);
+        } catch (ParseException e){
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -287,7 +310,7 @@ public class AddTask extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Deadline");
 
-        deadlineDateField.setDateFormatString("YYYY-MM-DD");
+        deadlineDateField.setDateFormatString("YYYY-MM-dd");
 
         taskNameField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -416,6 +439,7 @@ public class AddTask extends javax.swing.JFrame {
 
     private void addBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addBtnMouseClicked
 
+        AddTask validator =  new AddTask("YYYY-MM-dd");
 
         String taskCategory = taskCategoryField.getText();
         String taskName = taskNameField.getText();
@@ -428,35 +452,39 @@ public class AddTask extends javax.swing.JFrame {
             description.trim().equals("")){
         
             JOptionPane.showMessageDialog(null, "One or more Fields are empty");
+        } else if (validator.isValid(deadline)){
+             // add connection
+            String username = "root";
+            String password = ""; 
+            String addTaskQuery = "INSERT INTO `task_list`(`task_category`, `task_name`, `deadline`, `status`, `task_priority`, `description`) VALUES (?,?,?,?,?,?)";
+            PreparedStatement ps;
+
+            try{ 
+                ps = registerUserCon.getConnection().prepareStatement(addTaskQuery);
+                ps.setString(1, taskCategory);
+                ps.setString(2, taskName);
+                ps.setString(3, deadline);
+                ps.setString(4, status);
+                ps.setString(5, taskPriority);  
+                ps.setString(6, description);
+
+                if (ps.executeUpdate() != 0 ){
+                    JOptionPane.showMessageDialog(null, "Data Successfully added");
+                    clearField();
+                    dispose();
+                } else{
+                    JOptionPane.showMessageDialog(null, "Error: Check your information");
+                }   
+
+            } catch (SQLException ex){
+                Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } else{
+           JOptionPane.showMessageDialog(null, "Invalid date");
         }
         
         
-        // add connection
-        String username = "root";
-        String password = ""; 
-        String addTaskQuery = "INSERT INTO `task_list`(`task_category`, `task_name`, `deadline`, `status`, `task_priority`, `description`) VALUES (?,?,?,?,?,?)";
-        PreparedStatement ps;
-            
-        try{ 
-            ps = registerUserCon.getConnection().prepareStatement(addTaskQuery);
-            ps.setString(1, taskCategory);
-            ps.setString(2, taskName);
-            ps.setString(3, deadline);
-            ps.setString(4, status);
-            ps.setString(5, taskPriority);  
-            ps.setString(6, description);
-            
-            if (ps.executeUpdate() != 0 ){
-                JOptionPane.showMessageDialog(null, "Data Successfully added");
-                clearField();
-                dispose();
-            } else{
-                JOptionPane.showMessageDialog(null, "Error: Check your information");
-            }   
-            
-        } catch (SQLException ex){
-            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
             
          
     }//GEN-LAST:event_addBtnMouseClicked

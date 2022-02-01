@@ -3,16 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/EditTask.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/Profile.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/Credential/LoginForm.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/DashboardMain.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/AddTask.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/Credential/RegisterForm.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/TaskInfo.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/Pomodoro.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/EditProfile.java</file>
-            <file>file:/C:/Java/tutorial/task%20management/src/TaskManagementSystem/ToDoTask.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/Credential/LoginForm.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/TaskManagementSystem/EditProfile.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/TaskManagementSystem/TaskInfo.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/TaskManagementSystem/Pomodoro.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/TaskManagementSystem/ToDoTask.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/TaskManagementSystem/EditTimer.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/TaskManagementSystem/Profile.java</file>
+            <file>file:/C:/IT%20Project/2022/Java/task%20management/src/TaskManagementSystem/AddTask.java</file>
         </group>
     </open-files>
 </project-private>

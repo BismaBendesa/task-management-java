@@ -352,7 +352,7 @@
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="deadlineDateField">
               <Properties>
-                <Property name="dateFormatString" type="java.lang.String" value="YYYY-MM-DD"/>
+                <Property name="dateFormatString" type="java.lang.String" value="YYYY-MM-dd"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>

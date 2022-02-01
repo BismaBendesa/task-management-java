@@ -12,6 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import java.sql.PreparedStatement;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 //import TaskManagementSystem.DashboardMain;
@@ -27,6 +30,7 @@ public class EditTask extends javax.swing.JFrame {
      */
     
     DefaultTableModel model;
+    private String dateFormat;
     public EditTask() {
         initComponents();
         setTitle("Add Task");
@@ -48,6 +52,25 @@ public class EditTask extends javax.swing.JFrame {
         taskNameField.setText("");
         deadlineDateField.setCalendar(null);
         descriptionTextArea.setText("");
+    }
+    
+    // interface for date validation
+    public interface DateValidator {
+        boolean isValid(String dateStr);
+    }
+    public EditTask(String dateFormat){
+        this.dateFormat = dateFormat;
+    }
+    
+    public boolean isValid(String dateStr){
+        DateFormat sdf = new SimpleDateFormat(this.dateFormat);
+        sdf.setLenient(true);
+        try{
+            sdf.parse(dateStr);
+        } catch (ParseException e){
+            return false;
+        }
+        return true;
     }
     
     
@@ -193,7 +216,7 @@ public class EditTask extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Deadline");
 
-        deadlineDateField.setDateFormatString("YYYY-MM-DD");
+        deadlineDateField.setDateFormatString("YYYY-MM-dd");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -398,6 +421,9 @@ public class EditTask extends javax.swing.JFrame {
 
     private void editBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editBtnMouseClicked
 
+        // date validator 
+         AddTask validator =  new AddTask("YYYY-MM-dd");
+        
         // get data from the field
         String taskCategory = taskCategoryField.getText();
         String taskName = taskNameField.getText();
@@ -414,27 +440,31 @@ public class EditTask extends javax.swing.JFrame {
             description.trim().equals("")){
 
             JOptionPane.showMessageDialog(null, "One or more Fields are empty");
-        }
+        } else if (validator.isValid(deadline)){
+            // prepare query for update
+            PreparedStatement ps;
+            String editTaskQuery = "UPDATE `task_list` SET `task_name` = '"+taskName+"', `deadline` = '"+deadline+"', `status` = '"+status+"', `task_priority` = '"+taskPriority+"',`task_category` = '"+taskCategory+"', `description` = '"+description+"' WHERE `task_list`.`task_id` = "+ taskId;
 
-        // prepare query for update
-        PreparedStatement ps;
-        String editTaskQuery = "UPDATE `task_list` SET `task_name` = '"+taskName+"', `deadline` = '"+deadline+"', `status` = '"+status+"', `task_priority` = '"+taskPriority+"',`task_category` = '"+taskCategory+"', `description` = '"+description+"' WHERE `task_list`.`task_id` = "+ taskId;
+            try{
+                ps = registerUserCon.getConnection().prepareStatement(editTaskQuery);
+                ps.executeUpdate();
 
-        try{
-            ps = registerUserCon.getConnection().prepareStatement(editTaskQuery);
-            ps.executeUpdate();
+                if (ps.executeUpdate() != 0 ){
+                    JOptionPane.showMessageDialog(null, "Data Successfully Edited");
+                    clearField();
+                    dispose();
+                } else{
+                    JOptionPane.showMessageDialog(null, "Error: Check your information");
+                }
 
-            if (ps.executeUpdate() != 0 ){
-                JOptionPane.showMessageDialog(null, "Data Successfully Edited");
-                clearField();
-                dispose();
-            } else{
-                JOptionPane.showMessageDialog(null, "Error: Check your information");
+            } catch (SQLException ex){
+                Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-        } catch (SQLException ex){
-            Logger.getLogger(RegisterForm.class.getName()).log(Level.SEVERE, null, ex);
+        } else{
+            JOptionPane.showMessageDialog(null, "Invalid Date");
         }
+
+        
 
     }//GEN-LAST:event_editBtnMouseClicked
 
