@@ -16,7 +16,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import static Credential.LoginForm.userIdField;
 import static Credential.LoginForm.isLoggedIn;
+import java.sql.PreparedStatement;
 import java.util.Date;
+
 
 /**
  *
@@ -191,6 +193,9 @@ public class DashboardMain extends javax.swing.JFrame {
         jLabel62 = new javax.swing.JLabel();
         jLabel63 = new javax.swing.JLabel();
         refreshBtn = new javax.swing.JLabel();
+        add_task_btn1 = new javax.swing.JPanel();
+        add_task_btn_text1 = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -644,7 +649,7 @@ public class DashboardMain extends javax.swing.JFrame {
             .addComponent(jLabel62, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        bg.add(add_task_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 220, 120, 30));
+        bg.add(add_task_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1130, 230, 120, 30));
 
         jLabel63.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel63.setText("Task List");
@@ -661,7 +666,47 @@ public class DashboardMain extends javax.swing.JFrame {
                 refreshBtnMouseClicked(evt);
             }
         });
-        bg.add(refreshBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1070, 220, 40, 30));
+        bg.add(refreshBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 230, 40, 30));
+
+        add_task_btn1.setBackground(new java.awt.Color(246, 208, 208));
+        add_task_btn1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add_task_btn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                add_task_btn1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                add_task_btn1MouseEntered(evt);
+            }
+        });
+
+        add_task_btn_text1.setBackground(new java.awt.Color(113, 97, 207));
+        add_task_btn_text1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        add_task_btn_text1.setForeground(new java.awt.Color(237, 56, 56));
+        add_task_btn_text1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        add_task_btn_text1.setText("Delete All");
+
+        jLabel64.setBackground(new java.awt.Color(113, 97, 207));
+        jLabel64.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel64.setForeground(new java.awt.Color(237, 56, 56));
+        jLabel64.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel64.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/DeleteDashboard.png"))); // NOI18N
+
+        javax.swing.GroupLayout add_task_btn1Layout = new javax.swing.GroupLayout(add_task_btn1);
+        add_task_btn1.setLayout(add_task_btn1Layout);
+        add_task_btn1Layout.setHorizontalGroup(
+            add_task_btn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(add_task_btn1Layout.createSequentialGroup()
+                .addComponent(add_task_btn_text1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel64, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE))
+        );
+        add_task_btn1Layout.setVerticalGroup(
+            add_task_btn1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(add_task_btn_text1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(jLabel64, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        bg.add(add_task_btn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 230, 120, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -811,6 +856,27 @@ public class DashboardMain extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_refreshBtnMouseClicked
 
+    private void add_task_btn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_task_btn1MouseClicked
+        // delete all the task 
+        String sql = "DELETE FROM `task_list`";
+        PreparedStatement pst;
+        
+        int userInput = JOptionPane.showConfirmDialog(this, "Are you sure want to delete all task ?", "Delete", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if (userInput == JOptionPane.YES_OPTION){
+            //execute delete query 
+            try{
+                pst = registerUserCon.getConnection().prepareStatement(sql);
+                pst.executeUpdate();
+            } catch (Exception e){
+                System.out.println(e);
+            }  
+        } 
+    }//GEN-LAST:event_add_task_btn1MouseClicked
+
+    private void add_task_btn1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_add_task_btn1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_add_task_btn1MouseEntered
+
     
     
     /**
@@ -851,7 +917,9 @@ public class DashboardMain extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel add_task_btn;
+    private javax.swing.JPanel add_task_btn1;
     private javax.swing.JLabel add_task_btn_text;
+    private javax.swing.JLabel add_task_btn_text1;
     private javax.swing.JPanel bg;
     private javax.swing.JLabel career;
     public static javax.swing.JTable dashboardTable;
@@ -868,6 +936,7 @@ public class DashboardMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel62;
     private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
